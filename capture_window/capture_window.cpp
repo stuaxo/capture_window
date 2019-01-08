@@ -19,38 +19,22 @@ parse(int argc, char* argv[])
 			.allow_unrecognised_options()
 			.add_options()
 			("d,decorations", "Capture window decorations", cxxopts::value<bool>()->default_value("false"))
-			("c,clsid", "CLSID", cxxopts::value<std::string>()->default_value(""))
+			("c,clsid", "Window class identifier", cxxopts::value<std::string>()->default_value(""))
 			("t,title", "Window title", cxxopts::value<std::string>()->default_value(""))
 			("o,output", "Output filename", cxxopts::value<std::string>())
 			("l,list", "List windows", cxxopts::value<std::string>())
+			("h,help", "Print help")
 			;
 
 		options.parse_positional({ "clsid", "title" });
 
 		auto result = options.parse(argc, argv);
 
-		if (result.count("help"))
+		if (result.count("help") || 
+			(result.count("clsid") + result.count("title") == 0))
 		{
 			std::cout << options.help() << std::endl;
 			exit(0);
-		}
-
-		if (result.count("clsid"))
-		{
-			std::cout << "clsid:" << result["clsid"].as<std::string>()
-				<< std::endl;
-		}
-
-		if (result.count("title"))
-		{
-			std::cout << "title:" << result["title"].as<std::string>()
-				<< std::endl;
-		}
-
-		if (result.count("clsid") + result.count("title") == 0) 
-		{
-			std::cout << "Specify window title or clsid" << std::endl;
-			exit(1);
 		}
 
 		return result;
@@ -116,6 +100,11 @@ int main(int argc, char* argv[])
 	auto result = parse(argc, argv);
 	auto arguments = result.arguments();
 
+	if (result.count("list"))
+	{
+
+	}
+
 	if (result.count("title") || result.count("clsid"))
 	{
 		if (result.count("output"))
@@ -141,7 +130,7 @@ int main(int argc, char* argv[])
 					filename,
 					result["decorations"].as<bool>()))
 			{
-				cout << "Window not found." << endl;
+				std::cout << "Window not found." << std::endl;
 				exit(2);
 			}
 		}
