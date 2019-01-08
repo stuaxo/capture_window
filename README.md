@@ -26,6 +26,17 @@ On Windows 10, open a shell and run notepad
 C:> notepad
 ```
 
+List window class ids and titles:
+
+```shell
+C:> capture_window -l
+Class Identifier              Title:
+Shell_TrayWnd
+Notepad                       Untitled - Notepad
+CabinetWClass                 thirdparty
+```
+
+
 Capture a picture of the content of the window using its class id:
 
 ```shell
