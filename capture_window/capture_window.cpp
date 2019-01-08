@@ -4,6 +4,7 @@
 #include "capture_window.h"
 #include "atlimage.h"
 #include <Gdiplusimaging.h>
+#include <iomanip>
 
 cxxopts::ParseResult
 parse(int argc, char* argv[])
@@ -22,13 +23,18 @@ parse(int argc, char* argv[])
 			("c,clsid", "Window class identifier", cxxopts::value<std::string>()->default_value(""))
 			("t,title", "Window title", cxxopts::value<std::string>()->default_value(""))
 			("o,output", "Output filename", cxxopts::value<std::string>())
-			("l,list", "List windows", cxxopts::value<std::string>())
+			("l,list", "List windows")
 			("h,help", "Print help")
 			;
 
 		options.parse_positional({ "clsid", "title" });
 
 		auto result = options.parse(argc, argv);
+
+		if (result.count("list"))
+		{
+			return result;
+		}
 
 		if (result.count("help") || 
 			(result.count("clsid") + result.count("title") == 0))
@@ -92,6 +98,26 @@ bool capture_window(string clsid, string title, string filename, bool decoration
 
 }
 
+BOOL CALLBACK list_window_callback(HWND hWnd, LPARAM lParam)
+{
+
+	char class_name[80];
+	char title[80];
+	GetClassName(hWnd, class_name, sizeof(class_name));
+	GetWindowText(hWnd, title, sizeof(title));
+	if (IsWindowVisible(hWnd))
+	{
+		std::cout << std::left << std::setw(30) << class_name << title << std::endl;
+	}
+	return TRUE;
+}
+
+void list_windows()
+{
+	std::cout << std::left << std::setw(30) << "Class Identifier" << "Title:" << std::endl;
+	EnumWindows(list_window_callback, NULL);
+}
+
 using namespace std;
 
 int main(int argc, char* argv[])
@@ -102,7 +128,7 @@ int main(int argc, char* argv[])
 
 	if (result.count("list"))
 	{
-
+		list_windows();
 	}
 
 	if (result.count("title") || result.count("clsid"))
