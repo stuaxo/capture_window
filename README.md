@@ -3,7 +3,19 @@ capture_window
 
 Take a screenshot of a window from the commandline.
 
+Usage
+-----
 
+```
+  capture_window.exe [OPTION...] [optional args]
+
+  -d, --decorations  Capture window decorations
+  -c, --clsid arg    Window class identifier (default: )
+  -t, --title arg    Window title (default: )
+  -o, --output arg   Output filename
+  -l, --list arg     List windows
+  -h, --help         Print help
+```
 
 Examples
 --------

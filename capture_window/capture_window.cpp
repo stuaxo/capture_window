@@ -10,7 +10,7 @@ parse(int argc, char* argv[])
 {
 	try
 	{
-		cxxopts::Options options(argv[0], " - capture window as image");
+		cxxopts::Options options(argv[0], "Capture image of window");
 		options
 			.positional_help("[optional args]")
 			.show_positional_help();
