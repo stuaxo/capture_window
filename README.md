@@ -40,20 +40,20 @@ CabinetWClass                 thirdparty
 Capture a picture of the content of the window using its class id:
 
 ```shell
-C:> notepad -o notepad1.png Notepad
+C:> capture_window -o notepad1.png Notepad
 ```
 
 Use -d to also capture window decorations
 
 ```shell
-C:> notepad -d -o notepad2.png Notepad
+C:> capture_window -d -o notepad2.png Notepad
 ```
 
 
 Use -t to find the window by its title:
 
 ```shell
-C:> notepad -o notepad2.png -t "Untitled - Notepad"
+C:> capture_window -o notepad2.png -t "Untitled - Notepad"
 ```
 
 
